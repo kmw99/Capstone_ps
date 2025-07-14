@@ -1,8 +1,10 @@
 import cv2
 import numpy as np
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
-from PySide6.QtGui import QOpenGLTexture, QImage, QOpenGLShaderProgram, QOpenGLShader
-
+from PySide6.QtGui import QOpenGLFunctions
+from PySide6.QtGui import QImage
+from PySide6.QtOpenGL import QOpenGLTexture, QOpenGLShaderProgram, QOpenGLShader
+from OpenGL.GL import GL_TRIANGLE_STRIP
 
 class OpenGLVideoRenderer(QOpenGLWidget):
     def __init__(self, parent=None):
@@ -18,6 +20,7 @@ class OpenGLVideoRenderer(QOpenGLWidget):
         self.update()
 
     def initializeGL(self):
+        self.gl = self.context().functions()
         self.program = QOpenGLShaderProgram(self)
         self.program.addShaderFromSourceCode(QOpenGLShader.Vertex, """
             attribute vec2 position;
@@ -72,7 +75,7 @@ class OpenGLVideoRenderer(QOpenGLWidget):
         self.program.enableAttributeArray("texcoord")
         self.program.setAttributeArray("texcoord", texcoords, 2)
 
-        self.glDrawArrays(self.GL_TRIANGLE_STRIP, 0, 4)
+        self.gl.glDrawArrays(GL_TRIANGLE_STRIP, 0, 4)
 
         self.program.disableAttributeArray("position")
         self.program.disableAttributeArray("texcoord")

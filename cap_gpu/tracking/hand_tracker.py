@@ -12,7 +12,7 @@ class HandTracker:
             max_num_hands=2
         )
         self.drawer = mp.solutions.drawing_utils
-
+        
     def process(self, frame):
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         return self.hands.process(rgb)

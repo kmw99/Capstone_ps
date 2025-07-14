@@ -1,6 +1,5 @@
 import cv2
 
-
 class VideoCaptureManager:
     def __init__(self):
         self.cap = cv2.VideoCapture(0)
