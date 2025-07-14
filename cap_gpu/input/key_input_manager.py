@@ -13,7 +13,10 @@ class KeyInputManager:
             x1, y1 = key["x"], key["y"]
             x2, y2 = x1 + key["width"], y1 + key["height"]
             if x1 <= cx <= x2 and y1 <= cy <= y2:
+                key_label = key["label"]
+                print(f"🖱️ Click detected on key: {key_label}")
                 key_input = self.label_mapping.get(key["label"])
+                # key_input = self.label_mapping.get(key_label)
                 if key_input:
                     self.keyboard.press(key_input)
                     self.keyboard.release(key_input)
