@@ -4,7 +4,7 @@ from PySide6.QtOpenGLWidgets import QOpenGLWidget
 from PySide6.QtGui import QOpenGLFunctions
 from PySide6.QtGui import QImage
 from PySide6.QtOpenGL import QOpenGLTexture, QOpenGLShaderProgram, QOpenGLShader
-from OpenGL.GL import GL_TRIANGLE_STRIP
+from OpenGL.GL import GL_TRIANGLE_STRIP, GL_RENDERER
 
 class OpenGLVideoRenderer(QOpenGLWidget):
     def __init__(self, parent=None):
@@ -21,6 +21,15 @@ class OpenGLVideoRenderer(QOpenGLWidget):
 
     def initializeGL(self):
         self.gl = self.context().functions()
+
+        # --- 렌더링 GPU 확인 코드 ---
+        try:
+            renderer_info = self.gl.glGetString(GL_RENDERER)
+            print(f"🎨 렌더링 GPU: {renderer_info}")
+        except Exception as e:
+            print(f"Could not get renderer info: {e}")
+        # --- 여기까지 ---
+
         self.program = QOpenGLShaderProgram(self)
         self.program.addShaderFromSourceCode(QOpenGLShader.Vertex, """
             attribute vec2 position;

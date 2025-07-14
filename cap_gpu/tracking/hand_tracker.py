@@ -21,6 +21,11 @@ class HandTracker:
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
                 self.drawer.draw_landmarks(frame, hand_landmarks, self.mp_hands.HAND_CONNECTIONS)
-        rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        h, w, ch = rgb.shape
-        return QImage(rgb.data, w, h, ch * w, QImage.Format_RGB888)
+                
+    # def draw_hand(self, frame, results):
+    #     if results.multi_hand_landmarks:
+    #         for hand_landmarks in results.multi_hand_landmarks:
+    #             self.drawer.draw_landmarks(frame, hand_landmarks, self.mp_hands.HAND_CONNECTIONS)
+    #     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    #     h, w, ch = rgb.shape
+    #     return QImage(rgb.data, w, h, ch * w, QImage.Format_RGB888)

@@ -50,11 +50,19 @@ class MainWindow(QMainWindow):
             results = self.hand_tracker.process(frame)
             key_boxes = self.yolo_detector.detect(frame)
 
+            # MediaPipe가 손을 인식했다면, 그 결과를 frame에 그려줍니다.
+            if results.multi_hand_landmarks:
+                self.hand_tracker.draw_hand(frame, results)
+
             if self.captured_initial:
                 self.reference_current = {k['label']: (k['center_x'], k['center_y']) for k in key_boxes}
                 self.corrected_key_boxes = apply_dynamic_transform(
                     self.reference_initial, self.reference_current, self.initial_key_positions
                 )
+
+                # YOLO가 키보드를 인식했다면, 보정된 키 박스들을 frame에 그려줍니다.
+            if self.corrected_key_boxes:
+                self.yolo_detector.draw_boxes(frame, self.corrected_key_boxes.values())
 
             if results.multi_hand_landmarks:
                 for hand_landmarks in results.multi_hand_landmarks:
